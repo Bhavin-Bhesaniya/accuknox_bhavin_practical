@@ -1,7 +1,5 @@
 # Use an official Ubuntu base image
 FROM ubuntu:20.04
-
-# Install necessary packages
 RUN apt-get update && apt-get install -y \
     cowsay \
     fortune \
@@ -10,11 +8,7 @@ RUN apt-get update && apt-get install -y \
     && ln -s /usr/games/fortune /usr/bin/fortune \
     && rm -rf /var/lib/apt/lists/*
     
-
-# Set the working directory
 WORKDIR /app
-
-# Copy the shell script into the container
 COPY wisecow.sh /app/wisecow.sh
 
 # Make the script executable
