@@ -26,7 +26,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/wisecow_repo:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/wisecow:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -38,6 +38,7 @@ jobs:
 
     - name: Set up kubectl
       run: |
+        mkdir -p ~/.kube
         echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
 
     - name: Deploy to Kubernetes
@@ -45,7 +46,3 @@ jobs:
         kubectl apply -f k8s/deployment.yaml
         kubectl apply -f k8s/service.yaml
         kubectl apply -f k8s/ingress.yaml
-
-    - name: Rollout Deployment
-      run: |
-        kubectl rollout status deployment/wisecow-deployment
